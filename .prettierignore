@@ -1,0 +1,4 @@
+/public/**
+/.husky/**
+/node_modules/**
+/dist/**

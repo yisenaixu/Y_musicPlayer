@@ -1,0 +1,29 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  h1 {
+    @apply text-4xl font-black my-4 text-text
+  }
+  h3 {
+    @apply text-2xl font-semibold my-2 text-text
+  }
+}
+@layer components {
+  .btn {
+    @apply flex justify-center items-center cursor-pointer rounded-lg select-none text-lg font-bold transition-all hover:scale-110 active:scale-90
+  }
+  .btn_icon {
+    @apply my-2 mx-2 py-2 px-2 text-text hover:bg-secondary-bg
+  }
+  .btn_util {
+    @apply my-2 mx-3 py-2 px-6 bg-primary-bg text-primary
+  }
+  .btn_switch {
+    @apply  my-2 mx-3 py-2 px-6 bg-secondary-bg text-secondary hover:bg-primary-bg hover:text-primary
+  }
+  .btn_link {
+    @apply my-2 mx-2 py-2 px-2 text-text hover:bg-secondary-bg
+  }
+}

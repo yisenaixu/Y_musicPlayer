@@ -1,0 +1,8 @@
+node_modules
+public
+scripts
+config
+build
+dist
+.husky
+.eslintrc.cjs
