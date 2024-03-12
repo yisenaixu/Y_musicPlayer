@@ -19,41 +19,44 @@ const Lyrics = observer(() => {
   const [hightIndex, setHightIndex] = useState(-1)
   const [oldHightIndex, setOldHightIndex] = useState()
   const [background, setBackground] = useState()
-  const [, setLyricInterval] = useState(null)
+  let lyricInterval = null
   const { player } = useContext(PlayerContext)
   let picUrl = player.currentTrack.al.picUrl
   useEffect(() => {
     getLyrics(player.currentTrack.id).then(res => {
       setLyrics(parseLyric(res.lrc.lyric))
-      setLyricInt()
     })
     getColor()
-    return () => {
-      setLyricInterval(null)
-    }
   }, [player.currentTrack])
+  useEffect(() => {
+    setLyricInt()
+    return () => {
+      clearInterval(lyricInterval)
+    }
+  }, [lyrics])
   const setLyricInt = () => {
-    setLyricInterval(
-      setInterval(() => {
-        const progress = player.progress
-        setOldHightIndex(hightIndex)
-        let newHightIndex = lyrics.findIndex((lyric, index) => {
-          // 跳过空白歌词
-          if (lyric.lyr === '') return
-          let nextLyric = lyrics[index + 1]
-          while (nextLyric.lyr === '') {
-            index = index + 1
-            nextLyric = lyrics[index + 1]
-          }
-          return progress > lyric.time && nextLyric
-            ? progress < nextLyric.time
-            : true
-        })
-        if (newHightIndex !== hightIndex) {
-          setHightIndex(newHightIndex)
+    lyricInterval = setInterval(() => {
+      const progress = player.progress
+      console.log(progress)
+      setOldHightIndex(hightIndex)
+      let newHightIndex = lyrics.findIndex((lyric, index) => {
+        // 跳过空白歌词
+        if (lyric.lyr === '') return
+        let nextLyric = lyrics[index + 1]
+        while (nextLyric.lyr === '') {
+          index = index + 1
+          nextLyric = lyrics[index + 1]
         }
-      }, 50),
-    )
+        return progress > lyric.time && nextLyric
+          ? progress < nextLyric.time
+          : true
+      })
+      console.log(newHightIndex)
+      if (newHightIndex !== hightIndex) {
+        console.log(11)
+        setHightIndex(newHightIndex)
+      }
+    }, 50)
   }
   useEffect(() => {
     console.debug(hightIndex, oldHightIndex)
