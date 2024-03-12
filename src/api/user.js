@@ -1,7 +1,7 @@
 import { timestamp } from '../utils/timestamp'
 import { createAxiosByIntercepors } from '../request'
 const request = createAxiosByIntercepors({
-  baseURL: 'http://localhost:3000',
+  baseURL: '/api',
   withCredentials: true,
   timeout: 15000,
 })

@@ -38,7 +38,12 @@ const LikeButton = observer(({ type, id, className }) => {
     setIsLike(ids.includes(id))
   }, [ids, id])
   const like = () => {
-    likeFunction[type].bind(userStore)({ id, t: isLike ? 2 : 1 })
+    const params = {
+      id,
+      t: isLike ? 2 : 1,
+      like: !isLike,
+    }
+    likeFunction[type].bind(userStore)(params)
     console.log('like')
   }
   return (
