@@ -6,9 +6,11 @@ import { StoreContext } from '../context/storeContext'
 import { observer } from 'mobx-react-lite'
 import ContentMenu from './ContentMenu'
 import { doLogout, isLoggedIn } from '../utils/auth'
+import { useScroll } from '../hooks/useScroll'
 const NavBar = observer(() => {
   const navigate = useNavigate()
   const location = useLocation()
+  const isScroll = useScroll()
   const [value, setValue] = useState()
   const [inputFocus, setInputFocus] = useState(false)
   const menuRef = useRef(null)
@@ -33,7 +35,9 @@ const NavBar = observer(() => {
   }
   return (
     <>
-      <nav className="h-16 sticky top-0 left-0 right-0 flex px-[10vw] items-center z-50 bg-bg">
+      <nav
+        className={`h-16 sticky top-0 left-0 right-0 flex px-[10vw] items-center z-50 bg-bg transition-all ${isScroll && 'shadow'}`}
+      >
         <div className="navigateButtons flex flex-1">
           <Button type={'icon'} onClick={back}>
             <SvgIcon symbolId="arrow-left" />
