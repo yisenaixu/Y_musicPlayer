@@ -11,9 +11,10 @@ const Settings = observer(() => {
   const {
     userStore: { userData },
     settingStore: {
-      settings: { appearance },
+      settings: { appearance, musicQuality },
     },
   } = store
+  console.log(appearance, musicQuality)
   const levelOptions = [
     { value: 'standard', label: '标准' },
     { value: 'higher', label: '较高' },
@@ -64,7 +65,12 @@ const Settings = observer(() => {
         <div className="music-quality mt-4">
           <div className="title text-2xl text-text font-semibold ">音质</div>
           <hr className="opacity-30" />
-          <Select name="音质选择" k={'musicQuality'} options={levelOptions} />
+          <Select
+            name="音质选择"
+            k={'musicQuality'}
+            v={musicQuality ?? levelOptions[0].value}
+            options={levelOptions}
+          />
         </div>
         <div className="lyric mt-4">
           <div className="title text-2xl text-text font-semibold ">歌词</div>

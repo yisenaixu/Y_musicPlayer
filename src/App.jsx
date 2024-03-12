@@ -34,7 +34,6 @@ function App() {
     localStorage.setItem('player', JSON.stringify(player))
   })
   autorun(() => {
-    console.log(settingStore.settings.appearance)
     localStorage.setItem('settings', JSON.stringify(settingStore.settings))
     changeAppearance(settingStore.settings.appearance)
   })

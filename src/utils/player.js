@@ -240,7 +240,7 @@ export default class {
     if (isLoggedIn()) {
       return songUrl({
         id: track.id,
-        level: rootStore.settingStore.settings.level ?? 'exhigh',
+        level: rootStore.settingStore.settings.musicQuality ?? 'exhigh',
       }).then(res => {
         console.log('获取音频url...', res)
         // 音频资源

@@ -5,7 +5,8 @@ import PropTypes from 'prop-types'
 const Home = lazy(() => import('../pages/home.jsx'))
 const Explore = lazy(() => import('../pages/explore.jsx'))
 const Library = lazy(() => import('../pages/library.jsx'))
-const Login = lazy(() => import('../pages/login.jsx'))
+// 取消
+// const Login = lazy(() => import('../pages/login.jsx'))
 const LoginAccount = lazy(() => import('../pages/loginAccount.jsx'))
 const Playlist = lazy(() => import('../pages/playlist.jsx'))
 const Album = lazy(() => import('../pages/album.jsx'))
@@ -23,7 +24,7 @@ const RequiredLogin = ({ children }) => {
   return isLoggedIn() ? (
     children
   ) : (
-    <Navigate to={'/login'} replace element={Login} />
+    <Navigate to={'/login'} replace element={LoginAccount} />
   )
 }
 
@@ -50,12 +51,12 @@ export default [
   },
   {
     path: '/login',
-    element: <Login />,
-  },
-  {
-    path: '/login/account',
     element: <LoginAccount />,
   },
+  // {
+  //   path: '/login/account',
+  //   element: <LoginAccount />,
+  // },
   {
     path: '/playlist/:id',
     element: <Playlist />,
