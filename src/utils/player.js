@@ -237,17 +237,15 @@ export default class {
    * @param {*} track
    */
   _getAudioSource(track) {
-    if (isLoggedIn()) {
-      return songUrl({
-        id: track.id,
-        level: rootStore.settingStore.settings.musicQuality ?? 'exhigh',
-      }).then(res => {
-        console.log('获取音频url...', res)
-        // 音频资源
-        const source = res.data[0].url
-        return source
-      })
-    }
+    return songUrl({
+      id: track.id,
+      level: rootStore.settingStore.settings.musicQuality ?? 'exhigh',
+    }).then(res => {
+      console.log('获取音频url...', res)
+      // 音频资源
+      const source = res.data[0].url
+      return source
+    })
   }
   /**
    * @description 播放器根据音频播放
