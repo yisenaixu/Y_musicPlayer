@@ -11,7 +11,7 @@
     --html-overflow-y: overlay;
   }
 
-  [data-theme='dark'] {
+[data-theme='dark'] {
     --color-body-bg: #222222;
     --color-text: #ffffff;
     --color-primary: #335eea;

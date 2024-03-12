@@ -40,7 +40,7 @@ const Home = () => {
         <div className="title text-3xl text-text font-black mb-6 flex justify-between items-center mt-4 ">
           For you
         </div>
-        <div className="grid grid-cols-2 gap-80 px-12 place-items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-8 md:gap-16 lg:gap-40 xl:gap-60 2xl:gap-80  px-12 place-items-center">
           <DailyRecSongCard />
           <FMCard />
         </div>

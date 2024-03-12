@@ -45,7 +45,7 @@ const FMCard = observer(() => {
         style={{ background }}
       >
         <div className="img-box flex flex-1 justify-center items-center">
-          <div className="img box-border p-4 w-40 h-40">
+          <div className="img box-border p-4 w-36 h-36">
             <img
               className="w-full object-cover rounded-lg"
               src={track?.album.picUrl}
@@ -54,10 +54,10 @@ const FMCard = observer(() => {
           </div>
         </div>
         <div className="info flex-[2] relative">
-          <div className="info-song text-2xl font-black mt-4">
+          <div className="info-song text-2xl font-black mt-4 line-clamp-1">
             {track?.name}
           </div>
-          <div className="info-singer text-lg font-normal mt-2">
+          <div className="info-singer text-lg font-normal mt-2 line-clamp-1">
             {track?.artists[0].name}
           </div>
           <div className="button flex absolute bottom-4">

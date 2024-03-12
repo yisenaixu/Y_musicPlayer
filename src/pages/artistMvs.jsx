@@ -30,7 +30,7 @@ const ArtistMvs = () => {
   }
   return (
     <div className="artistMvs flow-root">
-      <div className="title text-6xl text-text font-semibold mt-6">
+      <div className="title  text-4xl lg:text-6xl text-text font-semibold mt-6">
         {artist} s Music Videos
       </div>
       <div className="flex justify-center mt-6">

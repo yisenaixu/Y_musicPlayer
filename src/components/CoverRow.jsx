@@ -51,7 +51,7 @@ export const Cover = ({ item, type, showTitle, coverImgUrl }) => {
         </div>
         {showTitle && (
           <div
-            className={`title w-full mt-2 px-1 text-xl font-semibold line-clamp-2 ${type === 'artist' ? 'text-center' : 'text-left'}`}
+            className={`title w-full mt-2 px-1 text-xs lg:text-xl font-semibold line-clamp-2 ${type === 'artist' ? 'text-center' : 'text-left'}`}
           >
             {location.pathname === '/explore' && type === 'playlist' && (
               <div className="flex items-center text-xs font-extralight text-secondary">
@@ -117,7 +117,7 @@ const CoverRow = ({ items, type, columnNumber = 5 }) => {
   return (
     <div>
       <div
-        className={`container grid gap-6 justify-center`}
+        className={`container grid gap-6 grid-cols-${columnNumber} justify-center`}
         style={{ gridTemplateColumns }}
       >
         {items?.map((item, index) => (

@@ -41,19 +41,21 @@ const Playlist = () => {
   }
   return (
     <div className="playlist flex flex-col">
-      <div className="header grid gap-24 mb-16 grid-cols-10">
-        <div className="left w-full col-span-3">
+      <div className="header grid gap-0 lg:gap-16 xl:gap-24 mb-16 grid-cols-10">
+        <div className="left w-full col-span-5 xl:col-span-4 2xl:col-span-3">
           <Cover showTitle={false} coverImgUrl={playlist?.coverImgUrl} />
         </div>
-        <div className="info text-text p-4 col-span-7">
-          <div className="title text-3xl font-black ">{playlist.name}</div>
-          <div className="creator text-base font-light mt-8">
+        <div className="info text-text p-4 col-span-5 xl:col-span-6 2xl:col-span-7">
+          <div className="title text-3xl font-black line-clamp-1">
+            {playlist.name}
+          </div>
+          <div className="creator text-base font-light mt-1 md:mt-4 lg:mt-8">
             PlayList by {playlist.creator?.nickname}
           </div>
           <div className="other text-sm font-extralight ">
             最近更新{updateTime} | 播放次数{playlist.playCount}
           </div>
-          <div className="detail text-sm font-normal  mt-12 line-clamp-3">
+          <div className="detail text-sm font-normal mt-1 md:mt-6 lg:mt-12 line-clamp-3">
             {playlist.description}
           </div>
           <div className="button mt-20 flex justify-start ">

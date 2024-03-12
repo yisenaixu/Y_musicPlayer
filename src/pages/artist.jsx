@@ -48,11 +48,11 @@ const Artist = () => {
   }
   return (
     <div className="artist flex flex-col ">
-      <div className="header grid grid-cols-10 gap-24 mb-16">
-        <div className="left w-full col-span-3">
+      <div className="header grid grid-cols-10 gap-0 lg:gap-16 xl:gap-24 mb-16">
+        <div className="left w-full col-span-5 xl:col-span-4 2xl:col-span-3">
           <Cover showTitle={false} coverImgUrl={artist.cover} type="artist" />
         </div>
-        <div className="info text-text p-4 col-span-7">
+        <div className="info text-text p-4 col-span-5 xl:col-span-6 2xl:col-span-7">
           <div className="name text-3xl font-black">{artist.name}</div>
           <div className="artists text-base font-light mt-8 ">艺人</div>
           <div className="statistics text-sm font-extralight">

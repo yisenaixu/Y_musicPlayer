@@ -29,7 +29,7 @@ const NewAlbums = () => {
   }, [albums])
   return (
     <div className="newAlbums flow-root">
-      <div className="title text-6xl text-text font-semibold mt-6">
+      <div className="title text-4xl lg:text-6xl text-text font-semibold mt-6">
         新专速递
       </div>
       <div className="albums flex justify-center mt-6">

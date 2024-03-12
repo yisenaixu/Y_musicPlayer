@@ -12,7 +12,7 @@ const List = () => {
   }, [player.list])
   return (
     <div className="list flow-root">
-      <div className="title text-text text-6xl font-semibold my-6">
+      <div className="title text-text  text-4xl lg:text-6xl font-semibold my-6">
         播放列表
       </div>
       <TrackList type="playlist" isShowTime={false} songs={songs} />

@@ -108,7 +108,7 @@ const Library = observer(() => {
         </div>
       </div>
       <div className="section-two mt-5">
-        <div className="tabs flex">
+        <div className="tabs flex flex-wrap">
           {/* <div className="tab button" :className="{active: currentTab === 'playlist'}" @click="currentTab = 'playlist'">
             { playlistSelect[playlistType] } &nbsp;
             <SvgIcon

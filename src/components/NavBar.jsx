@@ -42,7 +42,7 @@ const NavBar = observer(() => {
             <SvgIcon symbolId="arrow-right" />
           </Button>
         </div>
-        <div className="navigateLinks flex justify-center flex-1">
+        <div className="navigateLinks flex justify-center flex-[2] lg:flex-1">
           <Button
             type="link"
             to={'/'}
@@ -67,7 +67,7 @@ const NavBar = observer(() => {
         </div>
         <div className="searchBox flex flex-1 justify-end">
           <div
-            className={`searchBox-container box-border flex items-center h-8 p-3 rounded-xl ${inputFocus ? 'bg-primary-bg-transparent' : 'bg-secondary-bg-transparent'}`}
+            className={`searchBox-container hidden lg:flex box-border items-center h-8 p-3 rounded-xl ${inputFocus ? 'bg-primary-bg-transparent' : 'bg-secondary-bg-transparent'}`}
           >
             <SvgIcon symbolId={'search'} color={inputFocus && 'blue'} />
             <div className="search">

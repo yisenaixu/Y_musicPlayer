@@ -12,16 +12,16 @@
 }
 @layer components {
   .btn {
-    @apply flex justify-center items-center cursor-pointer rounded-lg select-none text-lg font-bold transition-all hover:scale-110 active:scale-90
+    @apply flex justify-center items-center cursor-pointer rounded-lg select-none font-bold  transition-all hover:scale-110 active:scale-90 text-xs sm:text-sm md:text-base lg:text-lg
   }
   .btn_icon {
-    @apply my-2 mx-2 py-2 px-2 text-text hover:bg-secondary-bg
+    @apply m-1 p-1 lg:p-2 lg:p-2 text-text hover:bg-secondary-bg
   }
   .btn_util {
-    @apply my-2 mx-3 py-2 px-6 bg-primary-bg text-primary
+    @apply my-2 mx-2 py-2 px-4 lg:px-6 lg:mx-3 bg-primary-bg text-primary
   }
   .btn_switch {
-    @apply  my-2 mx-3 py-2 px-6 bg-secondary-bg text-secondary hover:bg-primary-bg hover:text-primary
+    @apply  my-2 mx-2 py-2 px-4 lg:px-6 lg:mx-3 bg-secondary-bg text-secondary hover:bg-primary-bg hover:text-primary
   }
   .btn_link {
     @apply my-2 mx-2 py-2 px-2 text-text hover:bg-secondary-bg

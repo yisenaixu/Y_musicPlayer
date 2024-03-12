@@ -4,12 +4,9 @@ import { logout } from '../api/auth'
 
 export function setCookies(string) {
   const cookies = string.split(';;')
-  console.log('cookies', cookies)
   cookies.map(cookie => {
     document.cookie = cookie
-    console.log('cookie', cookie)
     const cookieKeyValue = cookie.split(';')[0].split('=')
-    console.log('cookieKeyValue', cookieKeyValue)
     localStorage.setItem(`cookie-${cookieKeyValue[0]}`, cookieKeyValue[1])
   })
 }

@@ -25,7 +25,7 @@ function App() {
     trace()
   })
   autorun(() => {
-    console.log('player', playerStore.player.list)
+    // console.log('player', playerStore.player.list)
     const player = {}
     for (const [key, value] of Object.entries(playerStore.player)) {
       if (key === '_playing' || key === '_howler') continue
