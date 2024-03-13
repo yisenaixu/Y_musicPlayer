@@ -1,5 +1,5 @@
 import { useContext, useEffect, useRef, useState } from 'react'
-import { StoreContext } from '../context/storeContext'
+import { PlayerContext, StoreContext } from '../context/storeContext'
 import TrackList from '../components/TrackList'
 import ContentMenu from '../components/ContentMenu'
 import CoverRow from '../components/CoverRow'
@@ -8,6 +8,7 @@ import { observer } from 'mobx-react-lite'
 import Button from '../components/Button'
 const Library = observer(() => {
   const store = useContext(StoreContext)
+  const { player } = useContext(PlayerContext)
   const menuRef = useRef(null)
   const [currentTab, setCurrentTab] = useState('playlist')
   const [playlistType, setPlaylistType] = useState('mine')
@@ -79,9 +80,9 @@ const Library = observer(() => {
         />
         {userData.user?.nickname}的音乐库
       </h1>
-      <div className="section-one h-72">
-        <div className="flex-wrap h-full flex">
-          <div className="like-songs flex-[3] mr-5 rounded-2xl bg-primary-bg-transparent flex flex-col">
+      <div className="section-one">
+        <div className="flex-wrap flex">
+          <div className="like-songs flex-[5] lg:flex-[3] mr-5 rounded-2xl bg-primary-bg-transparent flex flex-col">
             <div className="lyrics flex-1"></div>
             <div className="bottom flex p-2">
               <div className="text flex-1 flex flex-col items-center justify-center text-2xl font-semibold text-primary">
@@ -91,9 +92,12 @@ const Library = observer(() => {
                 </div>
               </div>
               <div className="button flex-1 flex justify-center items-center">
-                {/* <button @click.stop="() => player.playPlaylistById(liked.playlists[0].id)" className="play-button">
-                  <svgIcon symbolId="icon-play" className="svgIcon" />
-                </button> */}
+                <div
+                  onClick={() => player.playPlaylistById(playlists[0].id)}
+                  className="bg-bg text-primary p-3 rounded-full cursor-pointer  transition-all hover:scale-110 active:scale-90"
+                >
+                  <SvgIcon symbolId="play"></SvgIcon>
+                </div>
               </div>
             </div>
           </div>
@@ -109,14 +113,6 @@ const Library = observer(() => {
       </div>
       <div className="section-two mt-5">
         <div className="tabs flex flex-wrap">
-          {/* <div className="tab button" :className="{active: currentTab === 'playlist'}" @click="currentTab = 'playlist'">
-            { playlistSelect[playlistType] } &nbsp;
-            <SvgIcon
-              symbolId="icon-arrow-down"
-              className="svgIcon"
-              @click.stop="(e) => $refs.playlistTabMenu.openMenu(e)"
-            />
-          </div> */}
           <Button
             type={'switch'}
             className={`${currentTab === 'playlist' ? 'bg-primary-bg text-primary' : 'bg-secondary-bg text-secondary'}`}
@@ -166,7 +162,7 @@ const Library = observer(() => {
       </div>
       <ContentMenu ref={menuRef}>
         <div
-          className="item flex items-center text-lg font-black p-2 hover:bg-primary-bg"
+          className="item flex items-center text-lg font-black bg-bg p-2 rounded hover:bg-primary-bg"
           onClick={() => {
             setPlaylistType('all')
             setCurrentTab('playlist')
@@ -175,7 +171,7 @@ const Library = observer(() => {
           全部歌单
         </div>
         <div
-          className="item flex items-center text-lg font-black p-2 hover:bg-primary-bg"
+          className="item flex items-center text-lg font-black p-2 bg-bg hover:bg-primary-bg"
           onClick={() => {
             setPlaylistType('mine')
             setCurrentTab('playlist')
@@ -184,7 +180,7 @@ const Library = observer(() => {
           创建的歌单
         </div>
         <div
-          className="item flex items-center text-lg font-black p-2 hover:bg-primary-bg"
+          className="item flex items-center text-lg font-black p-2 bg-bg rounded hover:bg-primary-bg"
           onClick={() => {
             setPlaylistType('liked')
             setCurrentTab('playlist')
