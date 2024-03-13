@@ -2,8 +2,9 @@ import PropTypes from 'prop-types'
 import { useLocation, useNavigate } from 'react-router'
 import SvgIcon from './SvgIcon'
 import { transformNumber } from '../utils/common'
-import { useContext, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { PlayerContext } from '../context/storeContext'
+import { useWindowSize } from '../hooks/useWindowSize'
 export const Cover = ({ item, type, showTitle, coverImgUrl }) => {
   const location = useLocation()
   const navigate = useNavigate()
@@ -112,14 +113,35 @@ export const MvRow = ({ items, columnNumber, showTime }) => {
 }
 
 const CoverRow = ({ items, type, columnNumber = 5 }) => {
+  const { innerWidth } = useWindowSize()
   let gridTemplateColumns = `repeat(${columnNumber}, minmax(0, 1fr))`
-  console.debug(items)
+  const [isLg, setIsLg] = useState(innerWidth > 1024)
+  const [styles, setStyles] = useState({
+    gridTemplateColumns,
+  })
+  useEffect(() => {
+    if (innerWidth < 1024 && isLg) {
+      console.log(111)
+      setIsLg(false)
+    } else if (innerWidth >= 1024 && !isLg) {
+      console.log(222)
+      setIsLg(true)
+    }
+  }, [innerWidth])
+  useEffect(() => {
+    if (isLg) {
+      setStyles({
+        gridTemplateColumns: `repeat(${columnNumber}, minmax(0, 1fr))`,
+      })
+    } else {
+      setStyles({
+        gridTemplateColumns: `repeat(${columnNumber > 1 ? columnNumber - 1 : columnNumber}, minmax(0, 1fr))`,
+      })
+    }
+  }, [isLg])
   return (
     <div>
-      <div
-        className={`container grid gap-6 grid-cols-${columnNumber} justify-center`}
-        style={{ gridTemplateColumns }}
-      >
+      <div className={`container grid gap-6 justify-center`} style={styles}>
         {items?.map((item, index) => (
           <Cover
             key={item.id + index}

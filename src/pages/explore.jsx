@@ -104,14 +104,10 @@ const Explore = observer(() => {
             {cat}
           </Button>
         ))}
-        <div
-          className="more flex justify-center items-center cursor-pointer my-2 mx-3 py-2 px-6
-                rounded-lg select-none text-xl font-bold transition-all text-secondary bg-secondary-bg
-                hover:bg-primary-bg hover:text-primary"
-          onClick={() => setIsShow(is => !is)}
-        >
+        <Button type={'switch'} onClick={() => setIsShow(is => !is)}>
+          {' '}
           ...
-        </div>
+        </Button>
       </div>
       {isShow && (
         <div className="panel mt-3 bg-secondary-bg overflow-hidden">

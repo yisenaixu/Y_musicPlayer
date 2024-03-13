@@ -121,18 +121,18 @@ const Lyrics = observer(() => {
       </div>
       <div className="left flex-1 h-full">
         <div className="container flex flex-col items-center justify-center h-full w-full">
-          <div className="img w-1/2">
+          <div className="img w-3/5 lg:w-1/2">
             <img
               className="rounded-2xl w-full h-full object-cover"
               src={picUrl}
             />
           </div>
-          <div className="infOpt w-1/2 flex justify-between mt-9">
+          <div className="infOpt w-3/5 lg:w-1/2 flex justify-between mt-9">
             <div className="info ">
-              <div className="name text-2xl font-semibold text-white ">
+              <div className="name text-lg lg:text-2xl font-semibold text-white ">
                 {player.currentTrack.name}
               </div>
-              <div className="ar text-lg font-extralight">
+              <div className="ar text-sm lg:text-lg font-extralight">
                 {player.currentTrack.ar[0].name}
               </div>
             </div>
@@ -225,7 +225,7 @@ const Lyrics = observer(() => {
                 key={lyric.time}
                 onClick={() => handleClick(lyric.time)}
                 id={`line${index}`}
-                className={`px-2 py-3 rounded-lg text-2xl font-semibold cursor-pointer hover:bg-secondary-bg-transparent
+                className={`px-2 py-3 rounded-lg text-lg lg:text-2xl font-semibold cursor-pointer hover:bg-secondary-bg-transparent
                             ${hightIndex === index ? 'text-primary' : 'text-white'}
                            `}
               >

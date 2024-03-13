@@ -1,4 +1,5 @@
-import { useContext, useState } from 'react'
+import { useContext, useState, useEffect } from 'react'
+import { useWindowSize } from '../hooks/useWindowSize'
 import SvgIcon from './SvgIcon'
 import PropTypes from 'prop-types'
 import { transformTime } from '../utils/common'
@@ -114,10 +115,35 @@ const TrackList = ({
   isShowTime,
   highLightPlayingTrack,
 }) => {
+  const { innerWidth } = useWindowSize()
   let gridTemplateColumns = `repeat(${columnNumber}, minmax(0, 1fr))`
+  const [isLg, setIsLg] = useState(innerWidth > 1024)
+  const [styles, setStyles] = useState({
+    gridTemplateColumns,
+  })
+  useEffect(() => {
+    if (innerWidth < 1024 && isLg) {
+      console.log(111)
+      setIsLg(false)
+    } else if (innerWidth >= 1024 && !isLg) {
+      console.log(222)
+      setIsLg(true)
+    }
+  }, [innerWidth])
+  useEffect(() => {
+    if (isLg) {
+      setStyles({
+        gridTemplateColumns: `repeat(${columnNumber}, minmax(0, 1fr))`,
+      })
+    } else {
+      setStyles({
+        gridTemplateColumns: `repeat(${columnNumber > 1 ? columnNumber - 1 : columnNumber}, minmax(0, 1fr))`,
+      })
+    }
+  }, [isLg])
   return (
     <div className="trackList">
-      <div className={`container grid gap-2`} style={{ gridTemplateColumns }}>
+      <div className={`container grid gap-2`} style={styles}>
         {songs.map((song, index) => (
           <TrackListItem
             key={song.id}
