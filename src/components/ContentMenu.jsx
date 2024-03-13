@@ -16,7 +16,7 @@ const Menu = (props, ref) => {
     setPositionStyle({ top: `${position.y}px`, left: `${position.x}px` })
   }, [position])
   const openMenu = e => {
-    setPosition({ x: e.pageX, y: e.pageY })
+    setPosition({ x: e.clientX, y: e.clientY })
     setOpen(true)
   }
   useEffect(() => {
@@ -32,7 +32,7 @@ const Menu = (props, ref) => {
   return (
     <div
       ref={menuRef}
-      className={`menu min-w-32 fixed select-none cursor-pointer rounded-lg z-[999]
+      className={`menu min-w-32 fixed select-none cursor-pointer rounded-lg z-[999] outline-none
         border-2 border-solid border-[rgba(0, 0, 0, 0.08)] shadow-md
         ${open ? 'block' : 'hidden'}`}
       style={positionStyle}
