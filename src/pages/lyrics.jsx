@@ -24,7 +24,8 @@ const Lyrics = observer(() => {
   let picUrl = player.currentTrack.al.picUrl
   useEffect(() => {
     getLyrics(player.currentTrack.id).then(res => {
-      setLyrics(parseLyric(res.lrc.lyric))
+      console.debug(res.lyrics)
+      setLyrics(parseLyric(res.lyrics))
     })
     getColor()
   }, [player.currentTrack])

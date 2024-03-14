@@ -81,7 +81,7 @@ const Library = observer(() => {
         {userData.user?.nickname}的音乐库
       </h1>
       <div className="section-one">
-        <div className="flex-wrap flex">
+        <div className="flex-wrap flex min-h-[18rem]">
           <div className="like-songs flex-[5] lg:flex-[3] mr-5 rounded-2xl bg-primary-bg-transparent flex flex-col">
             <div className="lyrics flex-1"></div>
             <div className="bottom flex p-2">

@@ -5,6 +5,7 @@ import SvgIcon from '../components/SvgIcon'
 import Button from '../components/Button'
 import { doLogout } from '../utils/auth'
 import { observer } from 'mobx-react-lite'
+import { clearCache } from '../utils/db'
 
 const Settings = observer(() => {
   const store = useContext(StoreContext)
@@ -78,7 +79,9 @@ const Settings = observer(() => {
           <Select name="歌词字体大小" options={[]} />
         </div>
         <div className="other mt-4 flex justify-center">
-          <Button type={'util'}>清空本地缓存</Button>
+          <Button type={'util'} onClick={clearCache}>
+            清空本地缓存
+          </Button>
         </div>
       </div>
     </div>

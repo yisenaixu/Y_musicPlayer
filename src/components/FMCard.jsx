@@ -18,7 +18,7 @@ const FMCard = observer(() => {
   }, [track])
   const getColor = () => {
     const colorThief = new ColorThief()
-    if (!track?.album.picUrl) return
+    if (!track.album?.picUrl) return
     const cover = `${track.album.picUrl.replace(
       'http://',
       'https://',
@@ -48,17 +48,17 @@ const FMCard = observer(() => {
           <div className="img box-border p-4 w-36 h-36">
             <img
               className="w-full object-cover rounded-lg"
-              src={track?.album.picUrl}
+              src={track.album?.picUrl}
               alt=""
             />
           </div>
         </div>
         <div className="info flex-[2] relative">
           <div className="info-song text-2xl font-black mt-4 line-clamp-1">
-            {track?.name}
+            {track.name}
           </div>
           <div className="info-singer text-lg font-normal mt-2 line-clamp-1">
-            {track?.artists[0].name}
+            {track.artists && track?.artists[0]?.name}
           </div>
           <div className="button flex absolute bottom-4">
             <LikeButton

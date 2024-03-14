@@ -7,7 +7,7 @@ import {
   likeSong,
 } from '../api/like'
 import { getSongListDetail } from '../api/playlist'
-import { dailyTracks, getTrackDetail } from '../api/track'
+import { dailyTracks } from '../api/track'
 import {
   likedAlbums,
   likedArtists,
@@ -18,6 +18,7 @@ import {
   userPlaylist,
 } from '../api/user'
 import { isLoggedIn } from '../utils/auth'
+import { toast } from '../components/Toast'
 
 export class UserStore {
   userData = JSON.parse(localStorage.getItem('user')) ?? {}
@@ -109,17 +110,11 @@ export class UserStore {
   fetchLikedSongsDetail() {
     if (!isLoggedIn()) return
     return getSongListDetail(this.userData.likedPlaylistId).then(res => {
-      if (res.playlist.trackIds.length > 0) {
-        console.log(res.playlist.trackIds)
-        return getTrackDetail(
-          res.playlist.trackIds
-            .slice(0, 16)
-            .map(t => t.id)
-            .join(','),
-        ).then(res => {
-          console.log(res)
-          this.updateLiked({ key: 'songsDetails', value: res.songs })
-        })
+      if (res.playlist.tracks.length > 0) {
+        console.log(res.playlist.tracks)
+        let songs = res.playlist.tracks.slice(0, 16)
+        console.log(songs)
+        this.updateLiked({ key: 'songsDetails', value: songs })
       }
     })
   }
@@ -212,8 +207,11 @@ export class UserStore {
    * @param {number} payload.t
    */
   LikeATrack(payload) {
-    if (!isLoggedIn()) return
-    likeSong(payload).then(res => {
+    if (!isLoggedIn()) {
+      toast.current.info('请先登录', 2000)
+      return
+    }
+    return likeSong(payload).then(res => {
       console.log(res)
       this.fetchLikedSongs()
       this.fetchLikedSongsDetail()
@@ -227,9 +225,12 @@ export class UserStore {
    * @param {number} payload.t
    */
   LikeAAlbum(payload) {
-    if (!isLoggedIn()) return
+    if (!isLoggedIn()) {
+      toast.current.info('请先登录', 2000)
+      return
+    }
     console.debug(payload)
-    likeAlbum(payload).then(res => {
+    return likeAlbum(payload).then(res => {
       console.log(res)
       this.fetchLikedAlbums()
     })
@@ -242,8 +243,11 @@ export class UserStore {
    * @param {number} payload.t
    */
   LikeAPlaylist(payload) {
-    if (!isLoggedIn()) return
-    likePlaylist(payload).then(res => {
+    if (!isLoggedIn()) {
+      toast.current.info('请先登录', 2000)
+      return
+    }
+    return likePlaylist(payload).then(res => {
       console.log(res)
       this.fetchLikedPlaylist()
     })
@@ -256,8 +260,11 @@ export class UserStore {
    * @param {number} payload.t
    */
   LikeAArtist(payload) {
-    if (!isLoggedIn()) return
-    likeArtist(payload).then(res => {
+    if (!isLoggedIn()) {
+      toast.current.info('请先登录', 2000)
+      return
+    }
+    return likeArtist(payload).then(res => {
       console.log(res)
       this.fetchLikedArtists()
     })
@@ -270,8 +277,11 @@ export class UserStore {
    * @param {number} payload.t
    */
   LikeAMV(payload) {
-    if (!isLoggedIn()) return
-    likeMV(payload).then(res => {
+    if (!isLoggedIn()) {
+      toast.current.info('请先登录', 2000)
+      return
+    }
+    return likeMV(payload).then(res => {
       console.log(res)
       this.fetchLikedMVs()
     })

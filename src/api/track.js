@@ -1,3 +1,9 @@
+import {
+  cacheTrackDetail,
+  cacheTrackLyrics,
+  getTrackDetailCache,
+  getTrackLyricsFromCache,
+} from '../utils/db'
 import request from '../utils/request'
 /**
  * @description 由于网易云接口限制，歌单详情只会提供 10 首歌，通过调用此接口，
@@ -13,16 +19,33 @@ export function getAllTrack(params) {
 }
 
 /**
- * @description 调用此接口 , 传入音乐 id(支持多个 id, 用 , 隔开), 可获得歌曲详情
- * @param {string} ids
+ * @description 调用此接口 , 传入音乐 id(支持多个id, 用 , 隔开), 可获得歌曲详情
+ * @param {string} ids '1,2,3'
  */
 export function getTrackDetail(ids) {
-  return request({
-    url: '/song/detail',
-    method: 'get',
-    params: {
-      ids,
-    },
+  const getFromRequest = () => {
+    return request({
+      url: '/song/detail',
+      method: 'get',
+      params: {
+        ids,
+      },
+    }).then(res => {
+      console.debug(res)
+      res.songs.map(song => {
+        // 缓存歌曲详情
+        cacheTrackDetail(song)
+      })
+      return res
+    })
+  }
+  console.debug(typeof ids)
+  console.debug(ids)
+  let idsArr = ids.split(',')
+  return getTrackDetailCache(idsArr).then(res => {
+    console.debug(idsArr)
+    console.debug(res)
+    return res ?? getFromRequest()
   })
 }
 
@@ -59,11 +82,20 @@ export function songUrl(params) {
  * @param {number} id - 音乐 id
  */
 export function getLyrics(id) {
-  return request({
-    url: '/lyric',
-    method: 'get',
-    params: {
-      id,
-    },
+  const getFromRequest = () => {
+    return request({
+      url: '/lyric',
+      method: 'get',
+      params: {
+        id,
+      },
+    }).then(res => {
+      // 缓存歌词
+      cacheTrackLyrics(id, res.lrc.lyric)
+      return { lyrics: res.lrc.lyric }
+    })
+  }
+  return getTrackLyricsFromCache(id).then(res => {
+    return res ?? getFromRequest()
   })
 }

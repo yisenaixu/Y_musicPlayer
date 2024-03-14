@@ -7,6 +7,7 @@ import { fetchAlbumDetail } from '../api/album'
 import { fetchArtistHotSong } from '../api/artist'
 import { fm } from '../api/fm'
 import { makeAutoObservable } from 'mobx'
+import { cacheTrackSource, getTrackSourceFromCache } from './db'
 export default class {
   constructor() {
     //播放器状态
@@ -216,7 +217,7 @@ export default class {
    * @description 替换当前播放器播放歌曲 player.current currentTrack
    */
   _replaceCurrentTrack(id) {
-    return getTrackDetail(id).then(res => {
+    return getTrackDetail(String(id)).then(res => {
       const track = res.songs[0]
       rootStore.playerStore.updatePlayerTrack(track)
       return this._replaceCurrentTrackAudio(track)
@@ -237,6 +238,15 @@ export default class {
    * @param {*} track
    */
   _getAudioSource(track) {
+    return getTrackSourceFromCache(track.id).then(source => {
+      return source ?? this._getAudioSourceFromRequest(track)
+    })
+  }
+  /**
+   * @description 根据音乐详情从接口请求获取音乐音频信息
+   * @param {*} track
+   */
+  _getAudioSourceFromRequest(track) {
     return songUrl({
       id: track.id,
       level: rootStore.settingStore.settings.musicQuality ?? 'exhigh',
@@ -244,6 +254,25 @@ export default class {
       console.log('获取音频url...', res)
       // 音频资源
       const source = res.data[0].url
+      console.debug(source, 'source')
+      cacheTrackSource(track.id, source)
+      return source
+    })
+  }
+  /**
+   * @description 根据音乐详情从缓存获取音乐音频信息
+   * @param {*} track
+   */
+  _getAudioSourceFromCache(track) {
+    return songUrl({
+      id: track.id,
+      level: rootStore.settingStore.settings.musicQuality ?? 'exhigh',
+    }).then(res => {
+      console.log('获取音频url...', res)
+      // 音频资源
+      const source = res.data[0].url
+      console.debug(source, 'source')
+      cacheTrackSource(track.id, source)
       return source
     })
   }

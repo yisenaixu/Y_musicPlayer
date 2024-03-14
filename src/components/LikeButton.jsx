@@ -5,6 +5,7 @@ import { StoreContext } from '../context/storeContext'
 import { observer } from 'mobx-react-lite'
 import { trace } from 'mobx'
 import classNames from 'classnames'
+import { toast } from './Toast'
 
 const LikeButton = observer(({ type, id, className }) => {
   const typeMap = {
@@ -43,7 +44,14 @@ const LikeButton = observer(({ type, id, className }) => {
       t: isLike ? 2 : 1,
       like: !isLike,
     }
-    likeFunction[type].bind(userStore)(params)
+    likeFunction[type]
+      .bind(userStore)(params)
+      ?.then(() =>
+        toast.current.info(
+          ` ${isLike ? '已取消喜欢' : '已添加到我的喜欢'}`,
+          2000,
+        ),
+      )
     console.log('like')
   }
   return (

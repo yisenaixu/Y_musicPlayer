@@ -7,6 +7,7 @@ import { useEffect } from 'react'
 import { PlayerContext, StoreContext } from './context/storeContext.js'
 import { autorun, trace } from 'mobx'
 import { changeAppearance } from './utils/common.js'
+import { toast } from './components/Toast.jsx'
 function App() {
   const router = useRoutes(routes)
   const { userStore, playerStore, settingStore } = rootStore
