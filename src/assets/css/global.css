@@ -22,3 +22,15 @@
     --color-primary-bg-for-transparent: rgba(255, 255, 255, 0.12);
     --color-secondary-bg-for-transparent: rgba(255, 255, 255, 0.08);
   }
+  .toast-enter-active {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .toast-exit {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .toast-exit-active {
+    opacity: 0;
+    transform: translateY(50%);
+  }

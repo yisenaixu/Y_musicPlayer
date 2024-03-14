@@ -49,7 +49,7 @@ const LikeButton = observer(({ type, id, className }) => {
       ?.then(() =>
         toast.current.info(
           ` ${isLike ? '已取消喜欢' : '已添加到我的喜欢'}`,
-          2000,
+          3000,
         ),
       )
     console.log('like')

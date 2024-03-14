@@ -1,5 +1,4 @@
 import { getTrackDetail, songUrl } from '../api/track'
-import { isLoggedIn } from './auth'
 import { Howl, Howler } from 'howler'
 import { rootStore } from '../store'
 import { getSongListDetail } from '../api/playlist'
@@ -238,7 +237,7 @@ export default class {
    * @param {*} track
    */
   _getAudioSource(track) {
-    return getTrackSourceFromCache(track.id).then(source => {
+    return this._getAudioSourceFromCache(track).then(source => {
       return source ?? this._getAudioSourceFromRequest(track)
     })
   }
@@ -264,15 +263,13 @@ export default class {
    * @param {*} track
    */
   _getAudioSourceFromCache(track) {
-    return songUrl({
-      id: track.id,
-      level: rootStore.settingStore.settings.musicQuality ?? 'exhigh',
-    }).then(res => {
-      console.log('获取音频url...', res)
-      // 音频资源
-      const source = res.data[0].url
-      console.debug(source, 'source')
-      cacheTrackSource(track.id, source)
+    return getTrackSourceFromCache(track.id).then(data => {
+      console.debug(data)
+      if (!data) return undefined
+      const source = URL.createObjectURL(
+        new Blob([data], { type: 'audio/mpeg' }),
+      )
+      console.debug(source)
       return source
     })
   }

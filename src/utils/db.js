@@ -1,3 +1,4 @@
+import axios from 'axios'
 import Dexie from 'dexie'
 export const db = new Dexie('cache')
 
@@ -35,11 +36,14 @@ export function getTrackDetailCache(ids) {
     })
 }
 
-export function cacheTrackSource(id, source) {
-  console.debug(source)
-  db.trackSource.add({
-    id,
-    source,
+export function cacheTrackSource(id, url) {
+  console.debug(url)
+  axios.get(url, { responseType: 'arraybuffer' }).then(res => {
+    console.debug(res)
+    db.trackSource.add({
+      id,
+      data: res.data,
+    })
   })
 }
 
@@ -48,9 +52,7 @@ export function getTrackSourceFromCache(id) {
     .filter(source => source.id === id)
     .toArray()
     .then(source => {
-      return source.length > 0 && source[0].source
-        ? source[0].source
-        : undefined
+      return source.length > 0 && source[0].data ? source[0].data : undefined
     })
 }
 

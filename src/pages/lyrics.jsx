@@ -12,6 +12,7 @@ import '../assets/css/scrollbar.css'
 import { useNavigate } from 'react-router'
 import { formatTime } from '../utils/common'
 import LikeButton from '../components/LikeButton'
+import { CSSTransition } from 'react-transition-group'
 
 const Lyrics = observer(() => {
   const navigate = useNavigate()
@@ -102,141 +103,143 @@ const Lyrics = observer(() => {
     }
   }
   return (
-    <div
-      className="lyric flex absolute top-0 left-0 right-0 bottom-0 z-[100]"
-      style={{ background }}
-    >
-      <div className="absolute left-8 top-8">
-        <Button
-          type={'icon'}
-          onClick={() => navigate(-1)}
-          className="hover:bg-transparent"
-        >
-          <SvgIcon
-            symbolId="arrow-down"
-            width="25px"
-            height="25px"
-            color="white"
-          />
-        </Button>
-      </div>
-      <div className="left flex-1 h-full">
-        <div className="container flex flex-col items-center justify-center h-full w-full">
-          <div className="img w-3/5 lg:w-1/2">
-            <img
-              className="rounded-2xl w-full h-full object-cover"
-              src={picUrl}
+    <CSSTransition>
+      <div
+        className="lyric flex absolute top-0 left-0 right-0 bottom-0 z-[100]"
+        style={{ background }}
+      >
+        <div className="absolute left-8 top-8">
+          <Button
+            type={'icon'}
+            onClick={() => navigate(-1)}
+            className="hover:bg-transparent"
+          >
+            <SvgIcon
+              symbolId="arrow-down"
+              width="25px"
+              height="25px"
+              color="white"
             />
-          </div>
-          <div className="infOpt w-3/5 lg:w-1/2 flex justify-between mt-9">
-            <div className="info ">
-              <div className="name text-lg lg:text-2xl font-semibold text-white ">
-                {player.currentTrack.name}
-              </div>
-              <div className="ar text-sm lg:text-lg font-extralight">
-                {player.currentTrack.ar[0].name}
-              </div>
+          </Button>
+        </div>
+        <div className="left flex-1 h-full">
+          <div className="container flex flex-col items-center justify-center h-full w-full">
+            <div className="img w-3/5 lg:w-1/2">
+              <img
+                className="rounded-2xl w-full h-full object-cover"
+                src={picUrl}
+              />
             </div>
-            <div className="opt flex items-center">
-              <div className="volumeControl flex items-center ">
-                <Button type={'icon'} className="hover:bg-transparent">
-                  <SvgIcon
-                    symbolId={
-                      player.volume > 0.66
-                        ? 'volume'
-                        : player.volume !== 0
-                          ? 'volume-half'
-                          : 'volume-mute'
-                    }
-                  />
-                </Button>
-                <div className="volumeBar w-20">
-                  <ReactSlider
-                    value={player.volume}
-                    onChange={value => (player.volume = value)}
-                    min={0}
-                    max={1}
-                    step={0.01}
-                    className="horizontal-slider"
-                    thumbClassName="example-thumb"
-                    trackClassName="example-track"
-                  />
+            <div className="infOpt w-3/5 lg:w-1/2 flex justify-between mt-9">
+              <div className="info ">
+                <div className="name text-lg lg:text-2xl font-semibold text-white ">
+                  {player.currentTrack.name}
+                </div>
+                <div className="ar text-sm lg:text-lg font-extralight">
+                  {player.currentTrack.ar[0].name}
                 </div>
               </div>
-              <LikeButton
-                type="track"
-                id={player.currentTrack.id}
-                className="bg-transparent hover:bg-transparent text-black"
-              />
+              <div className="opt flex items-center">
+                <div className="volumeControl flex items-center ">
+                  <Button type={'icon'} className="hover:bg-transparent">
+                    <SvgIcon
+                      symbolId={
+                        player.volume > 0.66
+                          ? 'volume'
+                          : player.volume !== 0
+                            ? 'volume-half'
+                            : 'volume-mute'
+                      }
+                    />
+                  </Button>
+                  <div className="volumeBar w-20">
+                    <ReactSlider
+                      value={player.volume}
+                      onChange={value => (player.volume = value)}
+                      min={0}
+                      max={1}
+                      step={0.01}
+                      className="horizontal-slider"
+                      thumbClassName="example-thumb"
+                      trackClassName="example-track"
+                    />
+                  </div>
+                </div>
+                <LikeButton
+                  type="track"
+                  id={player.currentTrack.id}
+                  className="bg-transparent hover:bg-transparent text-black"
+                />
+              </div>
             </div>
-          </div>
-          <div className="progressBox w-1/2 mt-3 flex justify-around items-center font-light text-base">
-            0:00
-            <div className="progressBar w-4/5">
-              <ReactSlider
-                value={player.progress}
-                onChange={value => (player.progress = value)}
-                min={0}
-                max={player.currentTrackDuration}
-                step={1}
-                className="horizontal-slider"
-                thumbClassName="example-thumb"
-                trackClassName="example-track"
-              />
+            <div className="progressBox w-1/2 mt-3 flex justify-around items-center font-light text-base">
+              0:00
+              <div className="progressBar w-4/5">
+                <ReactSlider
+                  value={player.progress}
+                  onChange={value => (player.progress = value)}
+                  min={0}
+                  max={player.currentTrackDuration}
+                  step={1}
+                  className="horizontal-slider"
+                  thumbClassName="example-thumb"
+                  trackClassName="example-track"
+                />
+              </div>
+              {formatTime(player.currentTrackDuration)}
             </div>
-            {formatTime(player.currentTrackDuration)}
-          </div>
-          <div className="middleControl w-1/2 mt-3 flex items-center justify-center">
-            <Button
-              type={'icon'}
-              onClick={() => player.playPrevTrack()}
-              className="hover:bg-transparent"
-            >
-              {' '}
-              <SvgIcon symbolId="previous" />{' '}
-            </Button>
-            <Button
-              type={'icon'}
-              onClick={playAndPause}
-              className="hover:bg-transparent"
-            >
-              {' '}
-              <SvgIcon
-                symbolId={player.playing ? 'pause' : 'play'}
-                width="25px"
-                height="25px"
-              />{' '}
-            </Button>
-            <Button
-              type={'icon'}
-              onClick={() => player.playNextTrack()}
-              className="hover:bg-transparent"
-            >
-              {' '}
-              <SvgIcon symbolId="next" />{' '}
-            </Button>
+            <div className="middleControl w-1/2 mt-3 flex items-center justify-center">
+              <Button
+                type={'icon'}
+                onClick={() => player.playPrevTrack()}
+                className="hover:bg-transparent"
+              >
+                {' '}
+                <SvgIcon symbolId="previous" />{' '}
+              </Button>
+              <Button
+                type={'icon'}
+                onClick={playAndPause}
+                className="hover:bg-transparent"
+              >
+                {' '}
+                <SvgIcon
+                  symbolId={player.playing ? 'pause' : 'play'}
+                  width="25px"
+                  height="25px"
+                />{' '}
+              </Button>
+              <Button
+                type={'icon'}
+                onClick={() => player.playNextTrack()}
+                className="hover:bg-transparent"
+              >
+                {' '}
+                <SvgIcon symbolId="next" />{' '}
+              </Button>
+            </div>
           </div>
         </div>
-      </div>
-      <div className="right flex-1 flex h-full items-center">
-        <div className="container scrollbar overflow-y-scroll h-[90%]">
-          {lyrics.map((lyric, index) => {
-            return (
-              <div
-                key={lyric.time}
-                onClick={() => handleClick(lyric.time)}
-                id={`line${index}`}
-                className={`px-2 py-3 rounded-lg text-lg lg:text-2xl font-semibold cursor-pointer hover:bg-secondary-bg-transparent
+        <div className="right flex-1 flex h-full items-center">
+          <div className="container scrollbar overflow-y-scroll h-[90%]">
+            {lyrics.map((lyric, index) => {
+              return (
+                <div
+                  key={lyric.time}
+                  onClick={() => handleClick(lyric.time)}
+                  id={`line${index}`}
+                  className={`px-2 py-3 rounded-lg text-lg lg:text-2xl font-semibold cursor-pointer hover:bg-secondary-bg-transparent
                             ${hightIndex === index ? 'text-primary' : 'text-white'}
                            `}
-              >
-                {lyric.lyr}
-              </div>
-            )
-          })}
+                >
+                  {lyric.lyr}
+                </div>
+              )
+            })}
+          </div>
         </div>
       </div>
-    </div>
+    </CSSTransition>
   )
 })
 
