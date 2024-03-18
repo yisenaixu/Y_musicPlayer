@@ -10,11 +10,13 @@ import { StoreContext } from '../context/storeContext'
 import { useSearchParams } from 'react-router-dom'
 import { observer } from 'mobx-react-lite'
 import Button from '../components/Button'
+import Loading from '../components/Loading'
 const Explore = observer(() => {
   const [searchParams] = useSearchParams()
   const [activeCat, setActiveCat] = useState(searchParams.get('cat') ?? '全部')
   const [isShow, setIsShow] = useState(false)
   const [isMore, setIsMore] = useState(false)
+  const [loading, setIsLoading] = useState(true)
   const [showCat, setShowCat] = useState([])
   const [catlist, setCatlist] = useState([])
   const [total, setTotal] = useState(25)
@@ -57,6 +59,7 @@ const Explore = observer(() => {
       fetchRankList().then(res => {
         setPlaylists(res.list)
         setCurrentTotal(res.list.length)
+        setIsLoading(false)
       })
     } else {
       fetchPlaylistByCat1(activeCat, limit, playlists.length).then(res => {
@@ -67,6 +70,7 @@ const Explore = observer(() => {
         }
         setTotal(res.total)
         setCurrentTotal(currentTotal + limit)
+        setIsLoading(false)
       })
     }
   }
@@ -138,16 +142,22 @@ const Explore = observer(() => {
       )}
       <div className="playlist">
         <div className="container">
-          <CoverRow items={playlists} type="playlist" />
+          {loading ? (
+            <Loading />
+          ) : (
+            <>
+              <CoverRow items={playlists} type="playlist" />
+              {isMore && (
+                <div className="moreButton flex justify-center">
+                  <Button type={'util'} onClick={loadmore}>
+                    加载更多
+                  </Button>
+                </div>
+              )}
+            </>
+          )}
         </div>
       </div>
-      {isMore && (
-        <div className="moreButton flex justify-center">
-          <Button type={'util'} onClick={loadmore}>
-            加载更多
-          </Button>
-        </div>
-      )}
     </div>
   )
 })

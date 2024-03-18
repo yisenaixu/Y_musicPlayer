@@ -3,10 +3,11 @@ import { useRoutes } from 'react-router'
 import routes from './router/index'
 import Layout from './components/Layout'
 import { rootStore } from './store/index.js'
-import { useEffect } from 'react'
+import { Suspense, useEffect } from 'react'
 import { PlayerContext, StoreContext } from './context/storeContext.js'
 import { autorun, trace } from 'mobx'
 import { changeAppearance } from './utils/common.js'
+import Loading from './components/Loading.jsx'
 import { toast } from './components/Toast.jsx'
 function App() {
   const router = useRoutes(routes)
@@ -41,7 +42,9 @@ function App() {
   return (
     <StoreContext.Provider value={rootStore}>
       <PlayerContext.Provider value={playerStore}>
-        <Layout>{router}</Layout>
+        <Layout>
+          <Suspense fallback={<Loading />}>{router}</Suspense>
+        </Layout>
       </PlayerContext.Provider>
     </StoreContext.Provider>
   )

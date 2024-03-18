@@ -9,13 +9,14 @@ import { fetchTopArtists } from '../api/artist'
 import { fetchLimitNewAlbums } from '../utils/album'
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import Loading from '../components/Loading'
 const Home = () => {
   const [RecommendSongList, setRecommendSongList] = useState([])
   const [recommendIndex, setRecommendIndex] = useState(10)
   const [rankList, setRankList] = useState([])
   const [artists, setArtists] = useState([])
   const [albums, setAlbums] = useState([])
-
+  const [loading, setLoading] = useState(true)
   useEffect(() => {
     getPersonalRecommendSongList(recommendIndex - 10, recommendIndex).then(
       items => {
@@ -30,9 +31,18 @@ const Home = () => {
   }, [])
 
   const loadData = () => {
-    fetchLimitRankList(5).then(res => setRankList(res))
-    fetchTopArtists(5, 0).then(res => setArtists(res.artists))
-    fetchLimitNewAlbums(5).then(res => setAlbums(res))
+    Promise.all([
+      fetchLimitRankList(5),
+      fetchTopArtists(5, 0),
+      fetchLimitNewAlbums(5),
+      getPersonalRecommendSongList(recommendIndex - 10, recommendIndex),
+    ]).then(res => {
+      setRankList(res[0])
+      setArtists(res[1].artists)
+      setAlbums(res[2])
+      setRecommendSongList(res[3])
+      setLoading(false)
+    })
   }
   return (
     <div className="home relative flex flex-col">
@@ -56,7 +66,11 @@ const Home = () => {
             </span>
           </div>
         </div>
-        <CoverRow items={RecommendSongList} type="playlist" />
+        {loading ? (
+          <Loading />
+        ) : (
+          <CoverRow items={RecommendSongList} type="playlist" />
+        )}
       </div>
       <div className="index-row mt-[4.5rem]">
         <div className="title text-3xl text-text font-black mb-6 flex justify-between items-center mt-4 ">
@@ -65,13 +79,13 @@ const Home = () => {
             <Link to="/explore?cat=排行榜">查看全部</Link>
           </div>
         </div>
-        <CoverRow items={rankList} type="playlist" />
+        {loading ? <Loading /> : <CoverRow items={rankList} type="playlist" />}
       </div>
       <div className="index-row mt-[4.5rem]">
         <div className="title text-3xl text-text font-black mb-6 flex justify-between items-center mt-4 ">
           歌手推荐
         </div>
-        <CoverRow items={artists} type="artist" />
+        {loading ? <Loading /> : <CoverRow items={artists} type="artist" />}
       </div>
       <div className="index-row mt-[4.5rem]">
         <div className="title text-3xl text-text font-black mb-6 flex justify-between items-center mt-4 ">
@@ -80,7 +94,7 @@ const Home = () => {
             <Link to="/newAlbums">查看全部</Link>
           </div>
         </div>
-        <CoverRow items={albums} type="album" />
+        {loading ? <Loading /> : <CoverRow items={albums} type="album" />}
       </div>
     </div>
   )
