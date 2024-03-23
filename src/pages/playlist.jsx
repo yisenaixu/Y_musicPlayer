@@ -1,5 +1,4 @@
 import { Cover } from '../components/CoverRow'
-import TrackList from '../components/TrackList'
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router'
 import { getSongListDetail } from '../api/playlist'
@@ -9,6 +8,7 @@ import PlayButton from '../components/PlayButton'
 import LikeButton from '../components/LikeButton'
 import Button from '../components/Button'
 import Loading from '../components/Loading'
+import VituralList from '../components/VituralList'
 const Playlist = () => {
   const { id } = useParams()
   const [playlist, setPlaylist] = useState({})
@@ -70,7 +70,7 @@ const Playlist = () => {
             </div>
           </div>
 
-          <TrackList songs={songs} type="playlist" />
+          <VituralList items={songs} type="playlist" />
           {haveMore && (
             <div className="flex justify-center">
               {' '}

@@ -2,13 +2,34 @@ import PropTypes from 'prop-types'
 import { useLocation, useNavigate } from 'react-router'
 import SvgIcon from './SvgIcon'
 import { transformNumber } from '../utils/common'
-import { useContext, useEffect, useState } from 'react'
+import { useContext, useEffect, useState, useRef } from 'react'
 import { PlayerContext } from '../context/storeContext'
 import { useWindowSize } from '../hooks/useWindowSize'
 export const Cover = ({ item, type, showTitle, coverImgUrl }) => {
   const location = useLocation()
   const navigate = useNavigate()
   const [focus, setFocus] = useState(false)
+  const imgRef = useRef(null)
+  const observerRef = useRef(null)
+  useEffect(() => {
+    observerRef.current = new IntersectionObserver(entries => {
+      const { target, isIntersecting } = entries[0]
+      if (isIntersecting) {
+        target.src = target.dataset['src']
+        target.onload = () => {
+          console.log('加载完成')
+        }
+        observerRef.current.unobserve(target)
+        observerRef.current.disconnect()
+      }
+    })
+    if (imgRef.current) {
+      observerRef.current.observe(imgRef.current)
+    }
+    return () => {
+      observerRef.current.disconnect()
+    }
+  }, [])
   const playCount = transformNumber(item?.playCount)
   const imgSrc = item?.picUrl ?? coverImgUrl ?? item?.coverImgUrl
   const goDetail = () => {
@@ -35,8 +56,10 @@ export const Cover = ({ item, type, showTitle, coverImgUrl }) => {
       <div className="container w-full">
         <div className="img w-full h-0 pb-[100%] rounded-lg relative ">
           <img
+            ref={imgRef}
             className={`w-full object-cover ${type === 'artist' ? 'rounded-full' : 'rounded-2xl'}`}
-            src={`${imgSrc}?param=512y512`}
+            src={undefined}
+            data-src={`${imgSrc}?param=512y512`}
             alt=""
           />
           {focus && (
