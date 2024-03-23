@@ -17,12 +17,13 @@ const Album = () => {
   const [songsIds, setSongsIds] = useState([])
   const [publishTime, setPublishTime] = useState()
   useEffect(() => {
+    setLoading(true)
     fetchAlbumDetail(id).then(res => {
       setAlbum(res.album)
       setSongs(res.songs)
       setLoading(false)
     })
-  }, [])
+  }, [id])
 
   useEffect(() => {
     setSongsIds(songs.map(item => item.id))
@@ -59,7 +60,11 @@ const Album = () => {
               </div>
               <div className="button mt-20 flex justify-start ">
                 <PlayButton id={songsIds} />
-                <LikeButton type={'album'} id={album.id} />
+                <LikeButton
+                  className={'hover:bg-primary-bg'}
+                  type={'album'}
+                  id={album.id}
+                />
               </div>
             </div>
           </div>
@@ -69,7 +74,7 @@ const Album = () => {
           <div className="release text-xs font-extralight ">
             © {album.company}
           </div>
-          <div className="more mt-12 border">
+          <div className="more mt-12">
             <div className="title my-6 text-2xl font-semibold">
               More By {album.artist?.name}
             </div>

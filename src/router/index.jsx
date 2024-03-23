@@ -87,7 +87,11 @@ export default [
   },
   {
     path: '/dailyTracks',
-    element: <DailyTracks />,
+    element: (
+      <RequiredLogin>
+        <DailyTracks />
+      </RequiredLogin>
+    ),
   },
   {
     path: '/mv/:id',
@@ -99,6 +103,10 @@ export default [
   },
   {
     path: '/settings',
-    element: <Settings />,
+    element: (
+      <RequiredLogin>
+        <Settings />
+      </RequiredLogin>
+    ),
   },
 ]
